@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Redukcji Masy Ciała - PTLO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .input-field {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .input-field label {
+            font-weight: 600;
+            color: #333;
+            font-size: 16px;
+            min-width: 60px;
+        }
+        
+        .input-field input {
+            flex: 1;
+            max-width: 120px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .input-field input:focus {
+            outline: none;
+            border-color: #5e72e4;
+            box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+        }
+        
+        .bmi-display {
+            flex: 1;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bmi-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .bmi-category {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .bmi-normal-info {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+            display: none;
+        }
+        
+        .bmi-normal-info.show {
+            display: block;
+        }
+        
+        .conditions-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .conditions-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .condition-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .condition-item:hover {
+            background: #e8eaf6;
+            transform: translateX(5px);
+        }
+        
+        .condition-item.selected {
+            background: #e8eaf6;
+            border-color: #5e72e4;
+        }
+        
+        .condition-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        .condition-label {
+            flex: 1;
+            font-size: 15px;
+            color: #444;
+        }
+        
+        .percentage {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            background: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+        }
+        
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(94, 114, 228, 0.3);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .result-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .result-condition {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .result-values {
+            text-align: right;
+        }
+        
+        .result-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #5e72e4;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .result-value.min {
+            color: #28a745;
+        }
+        
+        .result-value.avg {
+            color: #5e72e4;
+        }
+        
+        .result-value.max {
+            color: #fd7e14;
+        }
+        
+        .health-benefits {
+            margin-top: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .health-benefits-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .health-benefits-list {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .health-benefits-list li {
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .result-summary {
+            background: linear-gradient(135deg, #5e72e4 0%, #825ee4 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .result-summary h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .result-summary .final-weight {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        
+        .result-summary .range-info {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 5px 0;
+        }
+        
+        .result-summary .target-weight {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .result-summary .bmi-info {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .warning strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .error {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kalkulator Redukcji Masy Ciała</h1>
+            <p>Na podstawie zaleceń Polskiego Towarzystwa Leczenia Otyłości</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-section">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="weight">Waga:</label>
+                        <input type="number" id="weight" placeholder="np. 85" step="0.1" min="30" max="300">
+                        <span style="font-size: 16px; color: #666;">kg</span>
+                    </div>
+                    <div class="input-field">
+                        <label for="height">Wzrost:</label>
+                        <input type="number" id="height" placeholder="np. 175" step="1" min="100" max="250">
+                        <span style="font-size: 16px; color: #666;">cm</span>
+                    </div>
+                    <div class="bmi-display">
+                        <span id="bmiDisplay" style="color: #999;">Podaj wagę i wzrost</span>
+                    </div>
+                </div>
+                
+                <div class="bmi-normal-info" id="bmiNormalInfo">
+                    ✅ Twoje BMI jest prawidłowe. Poniższe zalecenia dotyczą leczenia powikłań.
+                </div>
+                
+                <div class="conditions-title">Wybierz występujące powikłania:</div>
+                <div class="conditions-grid">
+                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="diabetes">
+                        <input type="checkbox" value="10|10|10" data-name="Stan przedcukrzycowy" 
+                               data-benefits="Zapobieganie rozwojowi cukrzycy typu 2">
+                        <span class="condition-label">Stan przedcukrzycowy</span>
+                        <span class="percentage">≥10%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="prediabetes">
+                        <input type="checkbox" value="5|10|15" data-name="Cukrzyca typu 2" 
+                               data-benefits="1) Zmniejszenie odsetka HbA1c|2) Redukcja liczby i/lub dawek leków zmniejszających stężenie glukozy|3) Remisja cukrzycy, zwłaszcza gdy trwa od niedawna">
+                        <span class="condition-label">Cukrzyca typu 2</span>
+                        <span class="percentage">≥5-15%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="5|10|15" data-name="Dyslipidemia aterogenna" 
+                               data-benefits="Zmniejszenie stężenia TG i nie-HDL-C oraz zwiększenie stężenia HDL-C">
+                        <span class="condition-label">Dyslipidemia aterogenna</span>
+                        <span class="percentage">≥5-15%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="5|10|15" data-name="Nadciśnienie tętnicze" 
+                               data-benefits="1) Obniżenie ciśnienia skurczowego i rozkurczowego|2) Zmniejszenie liczby i/lub dawek leków hipotensyjnych">
+                        <span class="condition-label">Nadciśnienie tętnicze</span>
+                        <span class="percentage">≥5-15%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="mash">
+                        <input type="checkbox" value="5|5|5" data-name="MASLD (Stłuszczeniowa choroba wątroby)" 
+                               data-benefits="Zmniejszenie nasilenia stłuszczenia">
+                        <span class="condition-label">MASLD (Stłuszczeniowa choroba wątroby)</span>
+                        <span class="percentage">≥5%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="masld">
+                        <input type="checkbox" value="10|25|40" data-name="MASH (Stłuszczeniowe zapalenie wątroby)" 
+                               data-benefits="Zmniejszenie nasilenia zapalenia i zahamowanie włóknienia">
+                        <span class="condition-label">MASH (Stłuszczeniowe zapalenie wątroby)</span>
+                        <span class="percentage">≥10-40%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="5|10|15" data-name="Zespół policystycznych jajników" 
+                               data-benefits="1) Przywrócenie owulacji|2) Regulacja cyklu miesiączkowego|3) Zmniejszenie hirsutyzmu i nasilenia trądziku|4) Poprawa wrażliwości na insulinę|5) Zmniejszenie stężenia androgenów we krwi">
+                        <span class="condition-label">Zespół policystycznych jajników</span>
+                        <span class="percentage">≥5-15%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="10|10|10" data-name="Niepłodność u kobiet" 
+                               data-benefits="1) Poprawa owulacji|2) Zwiększenie szansy na ciążę">
+                        <span class="condition-label">Niepłodność u kobiet</span>
+                        <span class="percentage">≥10%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="5|7.5|10" data-name="Hipogonadyzm męski" 
+                               data-benefits="Zwiększenie stężenia testosteronu we krwi">
+                        <span class="condition-label">Hipogonadyzm męski</span>
+                        <span class="percentage">≥5-10%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="7|9|11" data-name="Obturacyjny bezdech senny" 
+                               data-benefits="Obniżenie wskaźnika bezdech-niedotlenienie">
+                        <span class="condition-label">Obturacyjny bezdech senny</span>
+                        <span class="percentage">≥7-11%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="7|7.5|8" data-name="Astma / Nadreaktywność oskrzeli" 
+                               data-benefits="Zwiększenie natężonej objętości wydechowej pierwszosekundowej">
+                        <span class="condition-label">Astma / Nadreaktywność oskrzeli</span>
+                        <span class="percentage">≥7-8%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="10|10|10" data-name="Choroba zwyrodnieniowa stawów" 
+                               data-benefits="Zmniejszenie nasilenia dolegliwości">
+                        <span class="condition-label">Choroba zwyrodnieniowa stawów</span>
+                        <span class="percentage">≥10%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="5|7.5|10" data-name="Wysiłkowe nietrzymanie moczu" 
+                               data-benefits="Zmniejszenie częstości nietrzymania moczu">
+                        <span class="condition-label">Wysiłkowe nietrzymanie moczu</span>
+                        <span class="percentage">≥5-10%</span>
+                    </div>
+                    
+                    <div class="condition-item" onclick="toggleCondition(this)">
+                        <input type="checkbox" value="10|10|10" data-name="Choroba refluksowa przełyku" 
+                               data-benefits="Zmniejszenie nasilenia objawów">
+                        <span class="condition-label">Choroba refluksowa przełyku</span>
+                        <span class="percentage">≥10%</span>
+                    </div>
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateWeightLoss()">Oblicz zalecaną redukcję</button>
+                <div class="error" id="error">Proszę podać wagę, wzrost i wybrać przynajmniej jedno powikłanie</div>
+            </div>
+            
+            <div class="result" id="result">
+                <h2 class="result-title">Zalecana redukcja masy ciała</h2>
+                <div id="resultDetails"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function calculateBMI(weight, height) {
+            const heightInMeters = height / 100;
+            return weight / (heightInMeters * heightInMeters);
+        }
+        
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return 'Niedowaga';
+            if (bmi < 25) return 'Prawidłowa';
+            if (bmi < 30) return 'Nadwaga';
+            if (bmi < 35) return 'Otyłość I°';
+            if (bmi < 40) return 'Otyłość II°';
+            return 'Otyłość III°';
+        }
+        
+        function updateBMIDisplay() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const bmiDisplay = document.getElementById('bmiDisplay');
+            const bmiNormalInfo = document.getElementById('bmiNormalInfo');
+            
+            if (weight && height && weight > 0 && height > 0) {
+                const bmi = calculateBMI(weight, height);
+                const category = getBMICategory(bmi);
+                bmiDisplay.innerHTML = `<span class="bmi-value">BMI: ${bmi.toFixed(1)}</span><span class="bmi-category">(${category})</span>`;
+                
+                // Pokazuj info jeśli BMI jest prawidłowe
+                if (bmi >= 18.5 && bmi < 25) {
+                    bmiNormalInfo.classList.add('show');
+                } else {
+                    bmiNormalInfo.classList.remove('show');
+                }
+                
+                // Kolorowanie w zależności od BMI
+                if (bmi < 18.5) {
+                    bmiDisplay.style.color = '#ffc107';
+                } else if (bmi < 25) {
+                    bmiDisplay.style.color = '#28a745';
+                } else if (bmi < 30) {
+                    bmiDisplay.style.color = '#fd7e14';
+                } else {
+                    bmiDisplay.style.color = '#dc3545';
+                }
+            } else {
+                bmiDisplay.innerHTML = '<span style="color: #999;">Podaj wagę i wzrost</span>';
+                bmiNormalInfo.classList.remove('show');
+            }
+        }
+        
+        function toggleCondition(element) {
+            const checkbox = element.querySelector('input[type="checkbox"]');
+            const exclusionType = element.dataset.exclusion;
+            
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected', checkbox.checked);
+            
+            // Obsługa wykluczających się powikłań
+            if (checkbox.checked && exclusionType) {
+                // Mapa wykluczeń
+                const exclusions = {
+                    'prediabetes': 'diabetes',
+                    'diabetes': 'prediabetes',
+                    'masld': 'mash',
+                    'mash': 'masld'
+                };
+                
+                const toExclude = exclusions[exclusionType];
+                if (toExclude) {
+                    // Znajdź i odznacz wykluczające się powikłanie
+                    const excludeElements = document.querySelectorAll(`[data-exclusion="${toExclude}"]`);
+                    excludeElements.forEach(excludeEl => {
+                        const excludeCheckbox = excludeEl.querySelector('input[type="checkbox"]');
+                        if (excludeCheckbox.checked) {
+                            excludeCheckbox.checked = false;
+                            excludeEl.classList.remove('selected');
+                        }
+                    });
+                }
+            }
+        }
+        
+        function calculateWeightLoss() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const checkboxes = document.querySelectorAll('.condition-item input[type="checkbox"]:checked');
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            
+            // Walidacja
+            if (!weight || weight <= 0) {
+                errorDiv.textContent = 'Proszę podać prawidłową wagę';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+            
+            if (!height || height <= 0) {
+                errorDiv.textContent = 'Proszę podać prawidłowy wzrost';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+            
+            if (checkboxes.length === 0) {
+                errorDiv.textContent = 'Proszę wybrać przynajmniej jedno powikłanie';
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+                return;
+            }
+            
+            errorDiv.classList.remove('show');
+            
+            // Obliczenia
+            let maxPercentageMin = 0;
+            let maxPercentageAvg = 0;
+            let maxPercentageMax = 0;
+            let conditions = [];
+            
+            checkboxes.forEach(checkbox => {
+                const percentages = checkbox.value.split('|').map(p => parseFloat(p));
+                const minPerc = percentages[0];
+                const avgPerc = percentages[1];
+                const maxPerc = percentages[2];
+                
+                const conditionName = checkbox.dataset.name;
+                const benefits = checkbox.dataset.benefits;
+                
+                conditions.push({
+                    name: conditionName,
+                    minPercentage: minPerc,
+                    avgPercentage: avgPerc,
+                    maxPercentage: maxPerc,
+                    minWeightLoss: (weight * minPerc / 100).toFixed(1),
+                    avgWeightLoss: (weight * avgPerc / 100).toFixed(1),
+                    maxWeightLoss: (weight * maxPerc / 100).toFixed(1),
+                    benefits: benefits
+                });
+                
+                if (minPerc > maxPercentageMin) maxPercentageMin = minPerc;
+                if (avgPerc > maxPercentageAvg) maxPercentageAvg = avgPerc;
+                if (maxPerc > maxPercentageMax) maxPercentageMax = maxPerc;
+            });
+            
+            // Oblicz zalecane redukcje
+            let recommendedLossMin = weight * maxPercentageMin / 100;
+            let recommendedLossAvg = weight * maxPercentageAvg / 100;
+            let recommendedLossMax = weight * maxPercentageMax / 100;
+            
+            let targetWeightMin = weight - recommendedLossMin;
+            let targetWeightAvg = weight - recommendedLossAvg;
+            let targetWeightMax = weight - recommendedLossMax;
+            
+            // Sprawdź minimalne BMI
+            const heightInMeters = height / 100;
+            const minSafeWeight = 18.5 * heightInMeters * heightInMeters;
+            let warningMessage = '';
+            
+            if (targetWeightMax < minSafeWeight) {
+                // Ogranicz maksymalną redukcję
+                targetWeightMax = minSafeWeight;
+                recommendedLossMax = weight - targetWeightMax;
+                const safePercentage = (recommendedLossMax / weight * 100).toFixed(1);
+                
+                warningMessage = `<div class="warning">
+                    <strong>⚠️ Uwaga: Ograniczono maksymalną redukcję</strong>
+                    Maksymalna zalecana redukcja ${maxPercentageMax}% prowadziłaby do BMI poniżej 18.5.
+                    Bezpieczna maksymalna redukcja to ${safePercentage}% (${recommendedLossMax.toFixed(1)} kg).
+                </div>`;
+            }
+            
+            if (targetWeightAvg < minSafeWeight) {
+                targetWeightAvg = minSafeWeight;
+                recommendedLossAvg = weight - targetWeightAvg;
+            }
+            
+            if (targetWeightMin < minSafeWeight) {
+                targetWeightMin = minSafeWeight;
+                recommendedLossMin = weight - targetWeightMin;
+            }
+            
+            // BMI obliczenia
+            const currentBMI = calculateBMI(weight, height);
+            const targetBMIMin = calculateBMI(targetWeightMin, height);
+            const targetBMIAvg = calculateBMI(targetWeightAvg, height);
+            const targetBMIMax = calculateBMI(targetWeightMax, height);
+            
+            // Wyświetlanie wyników
+            let detailsHTML = warningMessage;
+            
+            conditions.forEach(condition => {
+                const benefitsList = condition.benefits.split('|').map(benefit => `<li>${benefit}</li>`).join('');
+                
+                detailsHTML += `
+                    <div class="result-item">
+                        <div class="result-header">
+                            <span class="result-condition">${condition.name}</span>
+                            <div class="result-values">
+                                <span class="result-value min">Min: ${condition.minWeightLoss} kg (${condition.minPercentage}%)</span>
+                                <span class="result-value avg">Śr: ${condition.avgWeightLoss} kg (${condition.avgPercentage}%)</span>
+                                <span class="result-value max">Max: ${condition.maxWeightLoss} kg (${condition.maxPercentage}%)</span>
+                            </div>
+                        </div>
+                        <div class="health-benefits">
+                            <div class="health-benefits-title">Oczekiwana poprawa stanu zdrowia:</div>
+                            <ul class="health-benefits-list">
+                                ${benefitsList}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            detailsHTML += `
+                <div class="result-summary">
+                    <h3>Zalecana redukcja masy ciała:</h3>
+                    <div class="range-info">Minimalna: ${recommendedLossMin.toFixed(1)} kg (${targetWeightMin.toFixed(1)} kg)</div>
+                    <div class="final-weight">Średnia: ${recommendedLossAvg.toFixed(1)} kg</div>
+                    <div class="range-info">Maksymalna: ${recommendedLossMax.toFixed(1)} kg (${targetWeightMax.toFixed(1)} kg)</div>
+                    <div class="target-weight">Masa docelowa: ${targetWeightMin.toFixed(1)} - ${targetWeightMax.toFixed(1)} kg</div>
+                    <div class="bmi-info">BMI: ${currentBMI.toFixed(1)} → ${targetBMIMin.toFixed(1)} - ${targetBMIMax.toFixed(1)}</div>
+                </div>
+            `;
+            
+            document.getElementById('resultDetails').innerHTML = detailsHTML;
+            resultDiv.classList.add('show');
+            
+            // Przewiń do wyników
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Event listeners
+        document.getElementById('weight').addEventListener('input', updateBMIDisplay);
+        document.getElementById('height').addEventListener('input', updateBMIDisplay);
+        
+        document.getElementById('weight').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateWeightLoss();
+            }
+        });
+        
+        document.getElementById('height').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                calculateWeightLoss();
+            }
+        });
+        
+        // Dodaj obsługę kliknięcia checkboxa bezpośrednio
+        document.querySelectorAll('.condition-item input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const parentItem = this.closest('.condition-item');
+                toggleCondition(parentItem);
+            });
+        });
+    </script>
+</body>
+</html>
