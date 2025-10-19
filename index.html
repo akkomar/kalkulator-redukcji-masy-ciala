@@ -627,100 +627,100 @@
                 
                 <div class="conditions-title">Wybierz występujące powikłania:</div>
                 <div class="conditions-grid">
-                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="diabetes">
+                    <div class="condition-item" onclick="toggleCondition(this, event)" data-exclusion="diabetes">
                         <input type="checkbox" value="10|10|10" data-name="Stan przedcukrzycowy" 
-                               data-benefits="Zapobieganie rozwojowi cukrzycy typu 2">
+                               data-benefits="Zapobieganie rozwojowi cukrzycy typu 2" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Stan przedcukrzycowy</span>
                         <span class="percentage">≥10%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="prediabetes">
+                    <div class="condition-item" onclick="toggleCondition(this, event)" data-exclusion="prediabetes">
                         <input type="checkbox" value="5|10|15" data-name="Cukrzyca typu 2" 
-                               data-benefits="1) Zmniejszenie odsetka HbA1c|2) Redukcja liczby i/lub dawek leków zmniejszających stężenie glukozy|3) Remisja cukrzycy, zwłaszcza gdy trwa od niedawna">
+                               data-benefits="1) Zmniejszenie odsetka HbA1c|2) Redukcja liczby i/lub dawek leków zmniejszających stężenie glukozy|3) Remisja cukrzycy, zwłaszcza gdy trwa od niedawna" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Cukrzyca typu 2</span>
                         <span class="percentage">≥5-15%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="5|10|15" data-name="Dyslipidemia aterogenna" 
-                               data-benefits="Zmniejszenie stężenia TG i nie-HDL-C oraz zwiększenie stężenia HDL-C">
+                               data-benefits="Zmniejszenie stężenia TG i nie-HDL-C oraz zwiększenie stężenia HDL-C" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Dyslipidemia aterogenna</span>
                         <span class="percentage">≥5-15%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="5|10|15" data-name="Nadciśnienie tętnicze" 
-                               data-benefits="1) Obniżenie ciśnienia skurczowego i rozkurczowego|2) Zmniejszenie liczby i/lub dawek leków hipotensyjnych">
+                               data-benefits="1) Obniżenie ciśnienia skurczowego i rozkurczowego|2) Zmniejszenie liczby i/lub dawek leków hipotensyjnych" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Nadciśnienie tętnicze</span>
                         <span class="percentage">≥5-15%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="mash">
+                    <div class="condition-item" onclick="toggleCondition(this, event)" data-exclusion="mash">
                         <input type="checkbox" value="5|5|5" data-name="MASLD (Stłuszczeniowa choroba wątroby)" 
-                               data-benefits="Zmniejszenie nasilenia stłuszczenia">
+                               data-benefits="Zmniejszenie nasilenia stłuszczenia" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">MASLD (Stłuszczeniowa choroba wątroby)</span>
                         <span class="percentage">≥5%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)" data-exclusion="masld">
+                    <div class="condition-item" onclick="toggleCondition(this, event)" data-exclusion="masld">
                         <input type="checkbox" value="10|25|40" data-name="MASH (Stłuszczeniowe zapalenie wątroby)" 
-                               data-benefits="Zmniejszenie nasilenia zapalenia i zahamowanie włóknienia">
+                               data-benefits="Zmniejszenie nasilenia zapalenia i zahamowanie włóknienia" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">MASH (Stłuszczeniowe zapalenie wątroby)</span>
                         <span class="percentage">≥10-40%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="5|10|15" data-name="Zespół policystycznych jajników" 
-                               data-benefits="1) Przywrócenie owulacji|2) Regulacja cyklu miesiączkowego|3) Zmniejszenie hirsutyzmu i nasilenia trądziku|4) Poprawa wrażliwości na insulinę|5) Zmniejszenie stężenia androgenów we krwi">
+                               data-benefits="1) Przywrócenie owulacji|2) Regulacja cyklu miesiączkowego|3) Zmniejszenie hirsutyzmu i nasilenia trądziku|4) Poprawa wrażliwości na insulinę|5) Zmniejszenie stężenia androgenów we krwi" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Zespół policystycznych jajników</span>
                         <span class="percentage">≥5-15%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="10|10|10" data-name="Niepłodność u kobiet" 
-                               data-benefits="1) Poprawa owulacji|2) Zwiększenie szansy na ciążę">
+                               data-benefits="1) Poprawa owulacji|2) Zwiększenie szansy na ciążę" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Niepłodność u kobiet</span>
                         <span class="percentage">≥10%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="5|7.5|10" data-name="Hipogonadyzm męski" 
-                               data-benefits="Zwiększenie stężenia testosteronu we krwi">
+                               data-benefits="Zwiększenie stężenia testosteronu we krwi" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Hipogonadyzm męski</span>
                         <span class="percentage">≥5-10%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="7|9|11" data-name="Obturacyjny bezdech senny" 
-                               data-benefits="Obniżenie wskaźnika bezdech-niedotlenienie">
+                               data-benefits="Obniżenie wskaźnika bezdech-niedotlenienie" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Obturacyjny bezdech senny</span>
                         <span class="percentage">≥7-11%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="7|7.5|8" data-name="Astma / Nadreaktywność oskrzeli" 
-                               data-benefits="Zwiększenie natężonej objętości wydechowej pierwszosekundowej">
+                               data-benefits="Zwiększenie natężonej objętości wydechowej pierwszosekundowej" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Astma / Nadreaktywność oskrzeli</span>
                         <span class="percentage">≥7-8%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="10|10|10" data-name="Choroba zwyrodnieniowa stawów" 
-                               data-benefits="Zmniejszenie nasilenia dolegliwości">
+                               data-benefits="Zmniejszenie nasilenia dolegliwości" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Choroba zwyrodnieniowa stawów</span>
                         <span class="percentage">≥10%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="5|7.5|10" data-name="Wysiłkowe nietrzymanie moczu" 
-                               data-benefits="Zmniejszenie częstości nietrzymania moczu">
+                               data-benefits="Zmniejszenie częstości nietrzymania moczu" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Wysiłkowe nietrzymanie moczu</span>
                         <span class="percentage">≥5-10%</span>
                     </div>
                     
-                    <div class="condition-item" onclick="toggleCondition(this)">
+                    <div class="condition-item" onclick="toggleCondition(this, event)">
                         <input type="checkbox" value="10|10|10" data-name="Choroba refluksowa przełyku" 
-                               data-benefits="Zmniejszenie nasilenia objawów">
+                               data-benefits="Zmniejszenie nasilenia objawów" onclick="event.stopPropagation(); toggleCondition(this.parentElement, event);">
                         <span class="condition-label">Choroba refluksowa przełyku</span>
                         <span class="percentage">≥10%</span>
                     </div>
@@ -816,10 +816,11 @@
             }, 1000);
         }
         
-        function toggleCondition(element) {
+        function toggleCondition(element, event) {
             const checkbox = element.querySelector('input[type="checkbox"]');
             const exclusionType = element.dataset.exclusion;
             
+            // Toggle checkbox state
             checkbox.checked = !checkbox.checked;
             element.classList.toggle('selected', checkbox.checked);
             
