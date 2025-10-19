@@ -568,7 +568,7 @@
         }
         
         .exclusion-popup {
-            position: absolute;
+            position: fixed;
             background-color: #fff3cd;
             border: 2px solid #ffc107;
             border-radius: 8px;
@@ -791,26 +791,36 @@
             const popup = document.createElement('div');
             popup.className = 'exclusion-popup';
             popup.textContent = `"${excludedConditionName}" został odznaczony, ponieważ wybrałeś "${selectedConditionName}"`;
-            
-            // Position popup directly over the deselected element with same size
-            const rect = element.getBoundingClientRect();
-            popup.style.left = rect.left + 'px';
-            popup.style.top = rect.top + 'px';
-            popup.style.width = rect.width + 'px';
-            popup.style.height = rect.height + 'px';
-            
+
+            // Function to update popup position
+            function updatePopupPosition() {
+                const rect = element.getBoundingClientRect();
+                popup.style.left = rect.left + 'px';
+                popup.style.top = rect.top + 'px';
+                popup.style.width = rect.width + 'px';
+                popup.style.height = rect.height + 'px';
+            }
+
+            // Initial position
+            updatePopupPosition();
+
+            // Update position on scroll
+            const scrollHandler = () => updatePopupPosition();
+            window.addEventListener('scroll', scrollHandler, { passive: true });
+
             // Add to body
             document.body.appendChild(popup);
-            
+
             // Show popup with animation
             setTimeout(() => {
                 popup.classList.add('show');
             }, 10);
-            
+
             // Remove popup after 2 seconds
             setTimeout(() => {
                 popup.classList.remove('show');
                 setTimeout(() => {
+                    window.removeEventListener('scroll', scrollHandler);
                     document.body.removeChild(popup);
                 }, 300); // Wait for fade out animation
             }, 1000);
